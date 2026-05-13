@@ -1,0 +1,41 @@
+import { Router } from 'express';
+import authRoutes from './authRoutes.js';
+import orderRoutes from './orderRoutes.js';
+import paymentRoutes from './paymentRoutes.js';
+import reportRoutes from './reportRoutes.js';
+import uploadRoutes from './uploadRoutes.js';
+import { crudRouter } from './crudRouter.js';
+import { Branch } from '../models/Branch.js';
+import { Expense } from '../models/Expense.js';
+import { Inventory } from '../models/Inventory.js';
+import { KotOrder } from '../models/KotOrder.js';
+import { MenuCategory } from '../models/MenuCategory.js';
+import { MenuItem } from '../models/MenuItem.js';
+import { Printer } from '../models/Printer.js';
+import { Restaurant } from '../models/Restaurant.js';
+import { StaffRole } from '../models/StaffRole.js';
+import { Table } from '../models/Table.js';
+import { User } from '../models/User.js';
+import { updateKotStatus } from '../controllers/kdsController.js';
+
+const router = Router();
+
+router.use('/auth', authRoutes);
+router.use('/restaurants', crudRouter(Restaurant));
+router.use('/branches', crudRouter(Branch));
+router.use('/tables', crudRouter(Table));
+router.use('/menu-categories', crudRouter(MenuCategory));
+router.use('/menu-items', crudRouter(MenuItem));
+router.use('/orders', orderRoutes);
+router.patch('/kot-orders/:id/status', updateKotStatus);
+router.use('/kot-orders', crudRouter(KotOrder));
+router.use('/payments', paymentRoutes);
+router.use('/inventory', crudRouter(Inventory));
+router.use('/expenses', crudRouter(Expense));
+router.use('/reports', reportRoutes);
+router.use('/printers', crudRouter(Printer));
+router.use('/staff', crudRouter(User));
+router.use('/staff-roles', crudRouter(StaffRole));
+router.use('/uploads', uploadRoutes);
+
+export default router;
